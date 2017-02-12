@@ -15,7 +15,7 @@
     android:background="#eee"
     android:gravity="center">
 
-    <net.ornew.mnistforandroid.CanvasView android:layout_height="560px"
+    <net.ornew.mnistandroid.CanvasView android:layout_height="560px"
         android:layout_width="560px"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

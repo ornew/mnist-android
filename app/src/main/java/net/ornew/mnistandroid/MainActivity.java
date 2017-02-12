@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(URL[] urls) {
+        protected Boolean doInBackground(URL... urls) {
             final byte[] buffer = new byte[4096];
             HttpURLConnection connection = null;
             InputStream input = null;

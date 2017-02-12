@@ -4,5 +4,7 @@ android_binary (
   custom_package = "net.ornew.mnistandroid",
   manifest = "src/main/AndroidManifest.xml",
   resource_files = glob(["src/main/res/**"]),
-  deps = ["//external:android/appcompat_v4", "//external:android/appcompat_v7"],
+  deps = [
+    "@androidsdk//com.android.support:appcompat-v7-25.0.0",
+  ],
 )
