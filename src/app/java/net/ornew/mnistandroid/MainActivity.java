@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 0; i < pixels.length; ++i){
                     data[i] = Color.alpha(pixels[i]) / 255.f;
                 }
-                float answers[] = JNI.ask(data);
+                float answers[] = JNI.inference(data);
 
                 result.setText("");
                 int bestIndex = 0;
@@ -110,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
     void initializeModel(){
         String dir = this.getApplicationContext().getFilesDir().getAbsolutePath();
         Log.d("FilesDir: ", dir);
-        JNI.create(dir + "/" + FILENAME);
+        System.loadLibrary("app");
+        JNI.initialize(dir + "/" + FILENAME);
 
         recognize.setEnabled(true);
     }
