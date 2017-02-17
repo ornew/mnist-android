@@ -1,9 +1,7 @@
 package net.ornew.mnist.app;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,10 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -24,8 +18,9 @@ import java.util.Map;
 import net.ornew.mnist.MNIST;
 
 public class MainActivity extends AppCompatActivity {
-    String FILENAME = "mnist_android_model";
-    String TAG = "MNIST_ANDROID";
+    static final String TAG = "MNIST";
+    static final String MODEL_URL = "https://github.com/ornew/mnist-android/releases/download/v1.0.0/frozen_mnist.pb";
+    static final String FILENAME = "mnist.frozen.pb";
 
     Button recognize;
     Button clear;
@@ -78,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String[] files = this.getApplicationContext().fileList();
+        String[] files = getApplicationContext().fileList();
         for(String i:files){
             Log.d(TAG,i);
         }
@@ -90,15 +85,20 @@ public class MainActivity extends AppCompatActivity {
                 downloading = new ProgressDialog(this);
                 downloading.setTitle("LOADING");
                 downloading.setMessage("モデルをダウンロード中です");
-                downloading.setMax(1);
+                downloading.setMax(100);
                 downloading.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                //downloading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                URL url = new URL("https://github.com/ornew/MNIST-for-Android/raw/master/model/frozen_mnist.pb");
-                new Download(this.getApplicationContext(), FILENAME) {
+                URL url = new URL(MODEL_URL);
+                new Download(getApplicationContext(), FILENAME) {
+                    @Override
+                    protected void onProgressUpdate(Integer... progress) {
+                        super.onProgressUpdate(progress);
+                        downloading.setProgress(progress[0]);
+                    }
                     @Override
                     protected void onPostExecute(Boolean success) {
                         super.onPostExecute(success);
                         Log.d(TAG, "Download model data.");
+                        downloading.dismiss();
                         initializeModel();
                     }
                 }.execute(url);
@@ -115,63 +115,5 @@ public class MainActivity extends AppCompatActivity {
         MNIST.initialize(dir + "/" + FILENAME);
 
         recognize.setEnabled(true);
-    }
-
-    public class Download extends AsyncTask<URL, Void, Boolean> {
-        private Context context;
-        private String pathTo;
-
-        Download(Context context, String pathTo) {
-            this.context = context;
-            this.pathTo = pathTo;
-        }
-
-        @Override
-        protected Boolean doInBackground(URL... urls) {
-            final byte[] buffer = new byte[4096];
-            HttpURLConnection connection = null;
-            InputStream input = null;
-            OutputStream output = null;
-            try {
-                connection = (HttpURLConnection) urls[0].openConnection();
-                connection.connect();
-
-                int length = connection.getContentLength();
-
-                input = connection.getInputStream();
-                output = this.context.openFileOutput(pathTo, Context.MODE_PRIVATE);
-
-                int totalBytes = 0;
-                int bytes = 0;
-                while ((bytes = input.read(buffer)) != -1) {
-                    output.write(buffer, 0, bytes);
-                    totalBytes += bytes;
-                    downloading.incrementProgressBy((int)(totalBytes * 100.f / length));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if(input != null){
-                        input.close();
-                    }
-                    if(output != null){
-                        output.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (connection != null) {
-                    connection.disconnect();
-                }
-            }
-            downloading.dismiss();
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success) {
-            super.onPostExecute(success);
-        }
     }
 }
