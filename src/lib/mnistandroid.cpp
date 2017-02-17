@@ -13,7 +13,13 @@
 #include "tensorflow/core/public/session.h"
 #include "tensorflow/core/util/stat_summarizer.h"
 
-#include "./mnistandroid.h"
+#define MNIST_ANDROID_NATIVE_METHOD(METHOD_NAME) Java_net_ornew_mnistandroid_JNI_##METHOD_NAME
+
+namespace mnistandroid {
+  static constexpr size_t mnist_input_size = 784;
+  static constexpr size_t mnist_labels_size = 10;
+  static char const* TAG = "MNISTANDROID";
+}
 
 using namespace tensorflow;
 using namespace std;
@@ -32,7 +38,7 @@ namespace Log {
 
 unique_ptr<Session> global_session;
 
-JNIEXPORT void JNICALL MNIST_ANDROID_NATIVE_METHOD(initialize)(JNIEnv* env, jclass clazz, jstring j_model_path){
+extern "C" JNIEXPORT void JNICALL MNIST_ANDROID_NATIVE_METHOD(initialize)(JNIEnv* env, jclass clazz, jstring j_model_path){
   const char* const model_path = env->GetStringUTFChars(j_model_path, NULL);
   Status status;
 
@@ -66,7 +72,7 @@ JNIEXPORT void JNICALL MNIST_ANDROID_NATIVE_METHOD(initialize)(JNIEnv* env, jcla
   Log::i("TensorFlow graph loaded from: %s", model_path);
 }
 
-JNIEXPORT jfloatArray JNICALL MNIST_ANDROID_NATIVE_METHOD(inference)(JNIEnv* env, jclass clazz, jfloatArray j_x){
+extern "C" JNIEXPORT jfloatArray JNICALL MNIST_ANDROID_NATIVE_METHOD(inference)(JNIEnv* env, jclass clazz, jfloatArray j_x){
   jsize input_length = env->GetArrayLength(j_x);
   Log::i("Input length: %d", (int)input_length);
 

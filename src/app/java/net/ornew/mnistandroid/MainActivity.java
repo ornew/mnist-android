@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
     void initializeModel(){
         String dir = this.getApplicationContext().getFilesDir().getAbsolutePath();
         Log.d("FilesDir: ", dir);
-        System.loadLibrary("app");
         JNI.initialize(dir + "/" + FILENAME);
 
         recognize.setEnabled(true);

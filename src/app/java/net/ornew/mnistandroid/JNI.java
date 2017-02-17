@@ -6,8 +6,9 @@ package net.ornew.mnistandroid;
 
 public class JNI {
     static {
-        System.loadLibrary("app");
+        System.loadLibrary("mnistandroid");
     }
+    public static native String hello();
     public static native void initialize(String model_path);
     public static native float[] inference(float x[]);
 }
