@@ -1,4 +1,4 @@
-package net.ornew.mnistandroid;
+package net.ornew.mnist.app;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package net.ornew.mnistandroid;
+package net.ornew.mnist.app;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +20,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.ornew.mnist.MNIST;
 
 public class MainActivity extends AppCompatActivity {
     String FILENAME = "mnist_android_model";
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 0; i < pixels.length; ++i){
                     data[i] = Color.alpha(pixels[i]) / 255.f;
                 }
-                float answers[] = JNI.inference(data);
+                float answers[] = MNIST.inference(data);
 
                 result.setText("");
                 int bestIndex = 0;
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     void initializeModel(){
         String dir = this.getApplicationContext().getFilesDir().getAbsolutePath();
         Log.d("FilesDir: ", dir);
-        JNI.initialize(dir + "/" + FILENAME);
+        MNIST.initialize(dir + "/" + FILENAME);
 
         recognize.setEnabled(true);
     }

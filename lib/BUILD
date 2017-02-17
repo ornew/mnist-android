@@ -1,31 +1,20 @@
 package(default_visibility = ["//visibility:public"])
 
-filegroup(
-    name = "srcs",
-    srcs = glob(["src/**"]),
-    visibility = ["//examples:__pkg__"],
-)
-
-android_binary (
-  name = "app",
-  srcs = glob(["src/app/java/**/*.java"]),
-  custom_package = "net.ornew.mnistandroid",
-  manifest = "src/app/AndroidManifest.xml",
-  resource_files = glob(["src/app/res/**"]),
-  deps = [
-    ":jni",
-    "@androidsdk//com.android.support:appcompat-v7-25.0.0",
-  ],
+android_library(
+  name = "net.ornew.mnist",
+  custom_package = "net.ornew.mnist",
+  srcs = glob(["src/MNIST.java"]),
+  deps = [":jni"],
 )
 
 cc_library(
   name = "jni",
-  srcs = [":libmnistandroid.so"],
+  srcs = [":libmnist.so"],
 )
 
 cc_binary(
-  name = "libmnistandroid.so",
-  srcs = ["src/lib/mnistandroid.cpp"],
+  name = "libmnist.so",
+  srcs = glob(["src/mnist.cpp"]),
   copts = [
     "-std=gnu++11",
     "-fno-exceptions",

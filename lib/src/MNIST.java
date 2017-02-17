@@ -1,14 +1,13 @@
-package net.ornew.mnistandroid;
+package net.ornew.mnist;
 
 /**
  * Created by ornew on 2017/02/04.
  */
 
-public class JNI {
+public class MNIST {
     static {
-        System.loadLibrary("mnistandroid");
+        System.loadLibrary("mnist");
     }
-    public static native String hello();
     public static native void initialize(String model_path);
     public static native float[] inference(float x[]);
 }

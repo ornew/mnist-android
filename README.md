@@ -35,7 +35,7 @@ Please install the following items.
 Run build.
 
 ```bash
-bazel build :app
+bazel build app:net.ornew.mnist.app
 ```
 
 `app.apk` is generated in `./bazel-bin`.
@@ -43,13 +43,13 @@ bazel build :app
 If you want to install the application:
 
 ```bash
-bazel mobile-install :app
+bazel mobile-install app:net.ornew.mnist.app
 ```
 
 or
 
 ```bash
-adb install -r bazel-bin/app.apk
+adb install -r bazel-bin/app/net.ornew.mnist.app.apk
 ```
 
 ## Contacts
