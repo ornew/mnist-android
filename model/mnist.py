@@ -104,18 +104,18 @@ def train(FLAGS, mnist_data):
         tf.train.write_graph(session.graph.as_graph_def(), FLAGS.model_dir, FLAGS.model_name, as_text=False)
         tf.train.write_graph(session.graph.as_graph_def(), FLAGS.model_dir, FLAGS.model_name + '.txt', as_text=True)
 
-        # Freeze graph.
-        freeze_graph(
-            input_graph=os.path.join(FLAGS.model_dir, FLAGS.model_name + '.txt'),
-            input_saver='',
-            input_binary=False,
-            input_checkpoint=ckpt,
-            output_node_names='readout/y',
-            restore_op_name='save/restore_all',
-            filename_tensor_name='save/Const:0',
-            output_graph=os.path.join(FLAGS.model_dir, '%s.frozen.pb' % FLAGS.model_name),
-            clear_devices=False,
-            initializer_nodes='')
+    # Freeze graph.
+    freeze_graph(
+        input_graph=os.path.join(FLAGS.model_dir, FLAGS.model_name + '.txt'),
+        input_saver='',
+        input_binary=False,
+        input_checkpoint=ckpt,
+        output_node_names='readout/y',
+        restore_op_name='save/restore_all',
+        filename_tensor_name='save/Const:0',
+        output_graph=os.path.join(FLAGS.model_dir, '%s.frozen.pb' % FLAGS.model_name),
+        clear_devices=False,
+        initializer_nodes='')
 
 if __name__ == '__main__':
     pwd = os.path.abspath(os.path.dirname(__file__))
