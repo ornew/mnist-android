@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.ornew.mnist.app" >
+    package="net.ornew.mnist.app"
+    android:versionCode="1"
+    android:versionName="1.0.1" >
     <uses-sdk android:minSdkVersion="15"
         android:targetSdkVersion="25"
         android:maxSdkVersion="25" />

@@ -19,7 +19,7 @@ import net.ornew.mnist.MNIST;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MNIST";
-    static final String MODEL_URL = "https://github.com/ornew/mnist-android/releases/download/v1.0.0/frozen_mnist.pb";
+    static final String MODEL_URL = "https://github.com/ornew/mnist-android/releases/download/v1.0.1/mnist.frozen.pb";
     static final String FILENAME = "mnist.frozen.pb";
 
     Button recognize;
