@@ -101,12 +101,14 @@ def train(FLAGS, mnist_data):
         print('Save checkpoint: %s' % ckpt)
 
         # Write graph.
-        tf.train.write_graph(session.graph.as_graph_def(), FLAGS.model_dir, FLAGS.model_name, as_text=False)
-        tf.train.write_graph(session.graph.as_graph_def(), FLAGS.model_dir, FLAGS.model_name + '.txt', as_text=True)
+        tf.train.write_graph(session.graph.as_graph_def(), FLAGS.model_dir, FLAGS.model_name + '.pb', as_text=False)
+        tf.train.write_graph(session.graph.as_graph_def(), FLAGS.model_dir, FLAGS.model_name + '.pb.txt', as_text=True)
+
+    # End default graph scope.
 
     # Freeze graph.
     freeze_graph(
-        input_graph=os.path.join(FLAGS.model_dir, FLAGS.model_name + '.txt'),
+        input_graph=os.path.join(FLAGS.model_dir, FLAGS.model_name + '.pb.txt'),
         input_saver='',
         input_binary=False,
         input_checkpoint=ckpt,
