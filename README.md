@@ -28,7 +28,7 @@ android_ndk_repository(
 
 Please install the following items.
 
-- Specified version of SDK Platform Tools
+- SDK Platform Tools for specified version
 - SDK Build Tools
 - Google Support Library
 
@@ -38,7 +38,7 @@ Run build.
 bazel build app:net.ornew.mnist.app
 ```
 
-`app.apk` is generated in `./bazel-bin`.
+`net.ornew.mnist.app.apk` is generated in `./bazel-bin/app/`.
 
 If you want to install the application:
 
@@ -51,6 +51,20 @@ or
 ```bash
 adb install -r bazel-bin/app/net.ornew.mnist.app.apk
 ```
+
+## How to generate MNIST model file
+
+You need to install the following tools.
+
+- python
+- TensorFlow
+
+```bash
+cd model
+python mnist.py
+```
+
+`mnist.frozen.pb` is generated in `model/dist/`.
 
 ## Contacts
 
