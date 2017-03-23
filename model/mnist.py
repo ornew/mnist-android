@@ -86,7 +86,7 @@ def train(FLAGS, mnist_data):
 
         print('Start training...')
         start = time.time()
-        for step in range(1,20000+1):
+        for step in range(1, FLAGS.max_train_number+1):
             batch = mnist_data.train.next_batch(50)
             _, summary = session.run([train, merge], feed_dict={
                 x: batch[0],
@@ -122,6 +122,12 @@ def train(FLAGS, mnist_data):
 if __name__ == '__main__':
     pwd = os.path.abspath(os.path.dirname(__file__))
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-n',
+        '--max_train_number',
+        type=int,
+        default=20000,
+        help='Max training number (default: 20000)')
     parser.add_argument(
         '--model_dir',
         type=str,
